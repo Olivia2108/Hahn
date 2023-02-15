@@ -43,11 +43,11 @@ namespace HahnAPI.Controllers
 
 		[HttpGet("GetAllEmployee")]
 		[ProducesResponseType(typeof(ApiResponseDto), StatusCodes.Status200OK)]
-		public async Task<IActionResult> GetAllEmployee([FromQuery] int pageSize, [FromQuery] int pageNumber)
+		public async Task<IActionResult> GetAllEmployee()
 		{
 			try
 			{
-				var result = await _employeeService.GetEmployees(pageSize, pageNumber);
+				var result = await _employeeService.GetEmployees();
 				return result.Success ? Ok(result.Data) : BadRequest(result);
 
 			}

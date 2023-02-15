@@ -12,7 +12,7 @@ namespace HahnDomain.Services.Contracts
 	{
 		Task<ApiResponseDto> AddEmployees(EmployeeDto employee);
 		Task<ApiResponseDto> UpdateEmployees(EmployeeDto employee, long Id);
-		Task<ApiResponseDto> GetEmployees(int pageSize, int pageNumber);
+		Task<ApiResponseDto> GetEmployees();
 		Task<ApiResponseDto> GetEmployeeById(long employeeId);
 		Task<ApiResponseDto> DeleteEmployeeById(long employeeId, string ipAddress);
 	}

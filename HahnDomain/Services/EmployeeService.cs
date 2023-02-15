@@ -98,18 +98,17 @@ namespace HahnDomain.Services
 		}
 		
 		
-		public async Task<ApiResponseDto> GetEmployees(int pageSize, int pageNumber)
+		public async Task<ApiResponseDto> GetEmployees()
 		{
 			try
 			{
-				var result = await _employeeRepository.GetEmployees(pageSize, pageNumber);
-				return result.Item1.Count > 0 ?
+				var result = await _employeeRepository.GetEmployees();
+				return result.Count > 0 ?
 					new ApiResponseDto
 					{
 						Data = result,
 						Message = ResponseConstants.Found,
-						Success = true,
-						TotalCount= result.Item2
+						Success = true, 
 					}
 
 					:

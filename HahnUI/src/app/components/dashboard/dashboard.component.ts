@@ -67,13 +67,25 @@ export class DashboardComponent implements OnInit {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
-  
+   
   /* ----------==========     OnSelected User    ==========---------- */
   
   onSelected(row: any) {
     this.selectedEmployee = row;
     console.log(this.selectedEmployee);
   }
+
+  /* ----------==========     Get All Employees    ==========---------- */
+  getAllEmployees(){
+    this.apiService.getAllEmployee().subscribe((data:any) =>{
+      this.employee = data;
+      console.log(this.employee);
+      this.dataSource = new MatTableDataSource<Employee>(this.employee)
+      this.dataSource.paginator = this.paginator;
+
+   })
+  }
+
   
   /* ----------==========     Add new Employee    ==========---------- */
   createEmployee(){
@@ -98,17 +110,7 @@ export class DashboardComponent implements OnInit {
       })
     }
     
-    /* ----------==========     Get All Employees    ==========---------- */
-    getAllEmployees(){
-      this.apiService.getAllEmployee().subscribe((data:any) =>{
-        this.employee = data.item1;
-        console.log(this.employee);
-        this.dataSource = new MatTableDataSource<Employee>(this.employee)
-        this.dataSource.paginator = this.paginator;
- 
-     })
-  }
-
+    
     
     /* ----------==========     Update Employee Order    ==========---------- */
     updateShippinOrders(){
@@ -149,8 +151,9 @@ export class DashboardComponent implements OnInit {
 
     openNewModal(){
       this.dialog.open(this.newModal,{
-        minWidth:'800px',
-        minHeight:'350px'
+        minWidth:'500px',
+        minHeight:'350px', 
+
 
       })
     }

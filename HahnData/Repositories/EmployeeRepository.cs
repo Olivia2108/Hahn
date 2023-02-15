@@ -69,26 +69,17 @@ namespace HahnData.Repositories
 		}
 
 
-		public async Task<Tuple<List<Employee>, int>> GetEmployees(int pageSize, int pageNumber)
+		public async Task<List<Employee>> GetEmployees()
 		{
 			try
-			{
-				var validFilter = new PaginationFilter(pageNumber, pageSize);
-				var pagedData = await _context.Employees
-								.Where(x => x.IsActive && !x.IsDeleted)
-								.Skip((validFilter.PageNumber - 1) * validFilter.PageSize)
-								.Take(validFilter.PageSize)
-								.OrderByDescending(x => x.DateCreated)
-								.ToListAsync();
+			{ 
 
-				var rec = await _context.Employees.Where(x => x.IsActive && !x.IsDeleted).OrderByDescending(x => x.DateCreated).ToListAsync();
-				var totalRecords = await _context.Employees.Where(x => x.IsActive && !x.IsDeleted).CountAsync();
-				return new Tuple<List<Employee>, int>(rec, totalRecords); 
+				return await _context.Employees.Where(x => x.IsActive && !x.IsDeleted).OrderByDescending(x => x.DateCreated).ToListAsync();  
 			}
 			catch (Exception ex)
 			{
 				LoggerMiddleware.LogError(ex.Message);
-				return new Tuple<List<Employee>, int>(new List<Employee>(), 0);
+				return new List<Employee>();
 			}
 		}
 

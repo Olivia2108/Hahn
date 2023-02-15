@@ -11,7 +11,7 @@ namespace HahnData.Repositories.Contracts
 	{
 		Task<long> AddEmployee(Employee data);
 		Task<bool> IsExist(string email);
-		Task<Tuple<List<Employee>, int>> GetEmployees(int pageSize, int pageNumber);
+		Task<List<Employee>> GetEmployees();
 		Task<Employee> GetEmployeeById(long employeeId);
 		Task<int> UpdateEmployeeInfo(long employeeId, Employee employee);
 		Task<int> DeleteEmployeeInfo(long employeeId, string ipAddress);
