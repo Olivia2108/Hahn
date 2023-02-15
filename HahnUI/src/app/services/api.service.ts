@@ -27,8 +27,8 @@ export class ApiService {
   }
 
    /* ----------==========     Delete Employee   ==========---------- */
-   deleteEmployee(id: any) {
-    return this._http.delete(AppSettings.API_ENDPOINT + `api/employee/DeleteEmployeeById?employeeId=${id}`);
+   deleteEmployee(id: any, ip: string) {
+    return this._http.delete(AppSettings.API_ENDPOINT + `api/employee/DeleteEmployeeById?employeeId=${id}&&ipAddress=${ip}`);
   }
 
   

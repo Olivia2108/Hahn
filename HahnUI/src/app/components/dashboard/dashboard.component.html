@@ -27,8 +27,8 @@
       <span>{{ title }} tracker</span>
   
     </div>
-    <button (click)="openNewModal()" class="addOrder2" mat-fab extended color="warn">
-      <mat-icon>add_shopping_cart</mat-icon>New Order
+    <button (click)="openNewModal()" class="addEmployee2" mat-fab extended color="warn">
+      <mat-icon>add_shopping_cart</mat-icon>New Employee
     </button>
 
     <!-------------------------------- Views   ---------------------->
@@ -39,7 +39,7 @@
         </mat-form-field>
 
         <div>
-          <button mat-raised-button (click)="openNewModal()" class="addOrder2" extended color="warn" style="color:white; background-color: green;">Add table</button>
+          <button mat-raised-button (click)="openNewModal()" class="addEmployee2" extended color="warn" style="color:white; background-color: green;">Add table</button>
            
         </div>
         <table mat-table  [dataSource]="dataSource">
@@ -112,7 +112,7 @@
       
         <mat-paginator [pageSizeOptions]="[5, 10, 15, 20]"
                        showFirstLastButtons
-                       aria-label="Select page of orders">
+                       aria-label="Select page of employees">
         </mat-paginator>
       </div>
     </div>
@@ -125,43 +125,59 @@
               <div class=""> 
                   <mat-form-field appearance="fill" class="offset mat-form-field">
                       <mat-label>Name</mat-label>
-                      <input matInput placeholder="Name" name="name" formControlName="name" [(ngModel)]="selectedEmployee.name"/> 
+                      <input matInput placeholder="Name" name="name" formControlName="Name" [(ngModel)]="selectedEmployee.name"/> 
                     </mat-form-field>
               </div>
               
               <div class=""> 
                 <mat-form-field appearance="fill" class="offset mat-form-field">
                     <mat-label>Email</mat-label>
-                    <input  matInput placeholder="Email" formControlName="email" [(ngModel)]="selectedEmployee.email"/> 
+                    <input  matInput placeholder="Email" formControlName="Email" email="true" [(ngModel)]="selectedEmployee.email"/> 
                   </mat-form-field>
               </div>
               
               <div class=""> 
                 <mat-form-field appearance="fill" class="offset mat-form-field">
                     <mat-label>Phone</mat-label>
-                    <input  matInput placeholder="Phone" formControlName="phone" [(ngModel)]="selectedEmployee.phone"/> 
+                    <input  matInput placeholder="Phone" formControlName="Phone" [(ngModel)]="selectedEmployee.phone"
+                    onkeypress='return event.charCode >= 48 && event.charCode <= 57' maxlength="11" minlength="11"/> 
                   </mat-form-field>
               </div>
               
               <div class=""> 
                 <mat-form-field appearance="fill" class="offset mat-form-field">
                     <mat-label>Salary</mat-label>
-                    <input matInput placeholder="Salary" formControlName="salary" [(ngModel)]="selectedEmployee.salary"/> 
+                    <input matInput placeholder="Salary" formControlName="Salary" [(ngModel)]="selectedEmployee.salary"
+                    onkeypress='return event.charCode >= 48 && event.charCode <= 57' maxlength="11" minlength="11"/> 
                   </mat-form-field>
               </div>
-              
-              <div class=""> 
+              <div class="">
+                  
+        
+                <mat-form-field appearance="fill" class="offset mat-form-field">
+                  <mat-label>Select Department</mat-label>
+                  <mat-select formControlName="Department" [(ngModel)]="selectedEmployee.department">
+                    <mat-option value=Adminstrative type= "text">Adminstrative</mat-option>
+                    <mat-option value=Legal>Legal</mat-option>
+                    <mat-option value=Technology>Technology</mat-option>
+                    <mat-option value=HR>HR</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+               
+   
+              <!-- <div class=""> 
                 <mat-form-field appearance="fill" class="offset mat-form-field">
                     <mat-label>Department</mat-label>
-                    <input  matInput placeholder="Department" formControlName="department" [(ngModel)]="selectedEmployee.department"/> 
+                    <input  matInput placeholder="Department" formControlName="Department" [(ngModel)]="selectedEmployee.department"/> 
                   </mat-form-field>
               </div>
-      
+       -->
               <div class="offset">
                 <button mat-fab extended style="color: black;" (click)="closeModal()"> 
                   <mat-icon>cancel</mat-icon>Cancel
                 </button>
-                <button class="offset" (click)="updateShippinOrders()" class="addOrder" mat-fab extended color="warn" style="color: white;"> 
+                <button class="offset" (click)="updateEmployee()" class="addEmployee" mat-fab extended color="green" style="color: white;"> 
                   <mat-icon>update</mat-icon>Update
                 </button>
               </div>
@@ -178,7 +194,7 @@
                 <button mat-fab extended style="color: black;" (click)="closeModal()"> 
                   <mat-icon>cancel</mat-icon>No
                 </button>
-                <button class="offset" (click)="deleteEmployee()" class="addOrder" mat-fab extended color="warn" style="color: white;"> 
+                <button class="offset" (click)="deleteEmployee()" class="addEmployee" mat-fab extended color="warn" style="color: white;"> 
                   <mat-icon>delete</mat-icon>Yes
                 </button>
               </div>
@@ -188,41 +204,71 @@
 
     <!-------------------------------- Create Modal   ---------------------->
     <ng-template #newModal>
-      <h1 mat-dialog-title>Create New Order</h1>
+      <h1 mat-dialog-title>Add New Employee</h1>
       <div>
             <form [formGroup]="employeeForm" autocomplete="off">
               <div class="offset">
-                <mat-form-field appearance="fill">
-                    <mat-label>Enter Product Name</mat-label>
-                    <input matInput placeholder="Product Name" formControlName="productName" type="text">
+                <div>
+
+                  <mat-form-field appearance="fill" class="offset mat-form-field">
+                    <mat-label>Enter Employee Name</mat-label>
+                    <input matInput placeholder="Name" formControlName="name" type="text">
                   </mat-form-field>
-        
-                  <mat-form-field appearance="fill" class="offset">
-                    <mat-label>Select Currency</mat-label>
-                    <mat-select formControlName="unit">
-                      <mat-option value=1 type= "number">NGN</mat-option>
-                      <mat-option value=2>USD</mat-option>
-                      <mat-option value=3>EUR</mat-option>
-                    </mat-select>
-                </mat-form-field>
-    
-                <mat-form-field appearance="fill" class="offset">
-                    <mat-label>Enter Amount</mat-label>
-                    <input matInput placeholder="Amount" formControlName="amount" type="number">
-                  </mat-form-field>
-            </div>
-            <div>    
+
+
+                </div>
+                <div>
+                  
                 <mat-form-field appearance="fill" class="offset mat-form-field">
-                    <mat-label>Enter Shipping Address</mat-label>
-                    <textarea matInput placeholder="Shipping Address" formControlName="shippingAddress"></textarea>
+                  <mat-label>Enter Email</mat-label>
+                  <input matInput placeholder="Email" email="true" formControlName="email" type="text">
+                </mat-form-field>
+
+                  
+                </div>
+                <div>
+                  
+                <mat-form-field appearance="fill" class="offset mat-form-field">
+                  <mat-label>Enter Phone</mat-label>
+                  <input matInput placeholder="Phone" formControlName="phone" type="text"
+                  onkeypress='return event.charCode >= 48 && event.charCode <= 57'
+                     maxlength="11" minlength="11">
+                </mat-form-field>
+
+                  
+                </div>
+                <div>
+                  
+                <mat-form-field appearance="fill" class="offset mat-form-field">
+                  <mat-label>Enter Salary</mat-label>
+                  <input matInput placeholder="Salary" formControlName="salary" type="text"
+                  onkeypress='return event.charCode >= 48 && event.charCode <= 57'>
+                </mat-form-field>
+
+                  
+                </div> 
+                <div>
+                  
+        
+                  <mat-form-field appearance="fill" class="offset mat-form-field">
+                    <mat-label>Select Department</mat-label>
+                    <mat-select formControlName="department">
+                      <mat-option value=Adminstrative type= "text">Adminstrative</mat-option>
+                      <mat-option value=Legal>Legal</mat-option>
+                      <mat-option value=Technology>Technology</mat-option>
+                      <mat-option value=HR>HR</mat-option>
+                    </mat-select>
                   </mat-form-field>
-            </div>
+                </div>
+                 
+     
+            </div> 
     
             <div class="offset">
-              <button (click)="closeModal()" class="addOrder" mat-fab extended style="color: black;"> 
+              <button (click)="closeModal()" class="addEmployee" mat-fab extended style="color: black;"> 
                 <mat-icon>cancel</mat-icon>Cancel
               </button>
-              <button class="addOrder" (click)="createEmployee()" mat-fab extended color="primary" style="color: white;"> 
+              <button class="addEmployee" (click)="createEmployee()" mat-fab extended color="primary" style="color: white;"> 
                 <mat-icon>save</mat-icon>Save
               </button>
             </div>

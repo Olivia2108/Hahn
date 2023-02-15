@@ -1,3 +1,4 @@
+import { IpService } from './../../services/ip.service';
 
 import {Component, ViewChild, OnInit, TemplateRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -16,9 +17,10 @@ import { NotificationService } from 'src/app/services/notification.service';
 })
 export class DashboardComponent implements OnInit {
     title = 'Employees';
-    selectedEmployee: any;
-    Id: number;
-    OrderDate: string;
+    selectedEmployee: Employee;
+    Id: string;
+    DateCreated: string;
+    ipAddress: string;
 
   result: any[] = [];
   employeeForm: FormGroup;
@@ -37,14 +39,15 @@ export class DashboardComponent implements OnInit {
   
   constructor(public dialog: MatDialog, private _formBuilder: FormBuilder,
               private notificationService: NotificationService, 
-              private apiService: ApiService) {
+              private apiService: ApiService,
+              private ipService: IpService) {
 
                 this.employeeForm = this._formBuilder.group({
-      Name: ["", [Validators.required]],
-      Email: ["", Validators.required],
-      Phone: ["", Validators.required],
-      Salary: ["", Validators.required],
-      Department: ["", Validators.required], 
+      name: ["", [Validators.required]],
+      email: ["", Validators.required],
+      phone: ["", Validators.required, Validators.minLength(11), Validators.maxLength(11)],
+      salary: ["", Validators.required],
+      department: ["", Validators.required], 
     });
 
     this.updateForm = this._formBuilder.group({
@@ -59,9 +62,16 @@ export class DashboardComponent implements OnInit {
   
   ngOnInit(): void {
     this.getAllEmployees();
+    this.getIP();
   }
   
   
+  getIP(){
+    this.ipService.getIPAddress()
+    .subscribe((res:any)=>{  
+      this.ipAddress=res.ip;  
+    });
+  }
   
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
@@ -71,7 +81,7 @@ export class DashboardComponent implements OnInit {
   /* ----------==========     OnSelected User    ==========---------- */
   
   onSelected(row: any) {
-    this.selectedEmployee = row;
+    this.selectedEmployee = row; 
     console.log(this.selectedEmployee);
   }
 
@@ -100,6 +110,7 @@ export class DashboardComponent implements OnInit {
         "salary": this.employeeForm.value.salary,
         "phone": this.employeeForm.value.phone,
         "department": this.employeeForm.value.department, 
+        "ipAddress": this.ipAddress
          
       }
       this.apiService.createEmployee(model).subscribe((data:any) =>{
@@ -112,28 +123,30 @@ export class DashboardComponent implements OnInit {
     
     
     
-    /* ----------==========     Update Employee Order    ==========---------- */
-    updateShippinOrders(){
-      this.Id = this.selectedEmployee.Id;
+    /* ----------==========     Update Employee    ==========---------- */
+    updateEmployee(){
+      this.Id = this.selectedEmployee.id;
       let model ={
         name : this.selectedEmployee.name,
         email: this.selectedEmployee.email,
         salary: this.selectedEmployee.salary,
         department: this.selectedEmployee.department,
-        phone: this.selectedEmployee.phone
+        phone: this.selectedEmployee.phone,
+        ipAddress: this.ipAddress
 
       }
       this.apiService.updateEmployee(this.Id, model).subscribe((data:any) =>{
         this.notificationService.success("Employee Information updated successfuly");
         this.closeModal();
+        window.location.reload();
      })
   }
 
     /* ----------==========     Delete Employee    ==========---------- */
     deleteEmployee(){
-      this.Id = this.selectedEmployee.Id;
+      this.Id = this.selectedEmployee.id;
       console.log(this.Id);
-      this.apiService.deleteEmployee(this.Id).subscribe((data:any) =>{
+      this.apiService.deleteEmployee(this.Id, this.ipAddress).subscribe((data:any) =>{
         this.notificationService.success("Employee deleted successfuly");
         this.closeModal();
         window.location.reload();
