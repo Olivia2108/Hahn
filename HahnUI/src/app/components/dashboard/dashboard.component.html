@@ -1,0 +1,199 @@
+<div class="toolbar" role="banner">
+    <img
+      width="40"
+      alt="eshopping Logo"
+      src="../assets/img/hans_logo.png"
+    />
+    <span>EShopping</span>
+      <div class="spacer"></div>
+  </div>
+  
+  <div class="content" role="main">
+  
+    <!-- Highlight Card -->
+    <div class="card highlight-card card-small">
+  
+      <svg id="rocket" xmlns="http://www.w3.org/2000/svg" width="101.678" height="101.678" viewBox="0 0 101.678 101.678">
+        <title>Rocket Ship</title>
+        <g id="Group_83" data-name="Group 83" transform="translate(-141 -696)">
+          <circle id="Ellipse_8" data-name="Ellipse 8" cx="50.839" cy="50.839" r="50.839" transform="translate(141 696)" fill="#dd0031"/>
+          <g id="Group_47" data-name="Group 47" transform="translate(165.185 720.185)">
+            <path id="Path_33" data-name="Path 33" d="M3.4,42.615a3.084,3.084,0,0,0,3.553,3.553,21.419,21.419,0,0,0,12.215-6.107L9.511,30.4A21.419,21.419,0,0,0,3.4,42.615Z" transform="translate(0.371 3.363)" fill="#fff"/>
+            <path id="Path_34" data-name="Path 34" d="M53.3,3.221A3.09,3.09,0,0,0,50.081,0,48.227,48.227,0,0,0,18.322,13.437c-6-1.666-14.991-1.221-18.322,7.218A33.892,33.892,0,0,1,9.439,25.1l-.333.666a3.013,3.013,0,0,0,.555,3.553L23.985,43.641a2.9,2.9,0,0,0,3.553.555l.666-.333A33.892,33.892,0,0,1,32.647,53.3c8.55-3.664,8.884-12.326,7.218-18.322A48.227,48.227,0,0,0,53.3,3.221ZM34.424,9.772a6.439,6.439,0,1,1,9.106,9.106,6.368,6.368,0,0,1-9.106,0A6.467,6.467,0,0,1,34.424,9.772Z" transform="translate(0 0.005)" fill="#fff"/>
+          </g>
+        </g>
+      </svg>
+  
+      <span>{{ title }} tracker</span>
+  
+    </div>
+    <button (click)="openNewModal()" class="addOrder2" mat-fab extended color="warn">
+      <mat-icon>add_shopping_cart</mat-icon>New Order
+    </button>
+
+    <!-------------------------------- Views   ---------------------->
+      <div class="mat-elevation-z8">
+        <mat-form-field  style="width: 50%;">
+          <mat-label>Filter</mat-label>
+          <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium" #input>
+        </mat-form-field>
+
+        <table mat-table  [dataSource]="dataSource">
+      
+
+          <ng-container matColumnDef="S/N">
+            <th mat-header-cell *matHeaderCellDef> Index </th> 
+            <td mat-cell *matCellDef="let element; let i = index;">{{i+1}}</td> 
+          </ng-container>
+
+           
+      
+          <!-- ProductName Column -->
+          <ng-container matColumnDef="Name">
+            <th mat-header-cell *matHeaderCellDef> Name </th>
+            <td mat-cell *matCellDef="let element">{{element.name}}</td>
+          </ng-container>
+      
+          <!-- Amount Column -->
+          <ng-container matColumnDef="Phone">
+            <th mat-header-cell *matHeaderCellDef> Phone </th>
+            <td mat-cell *matCellDef="let element">{{element.phone}}</td>
+          </ng-container>
+       
+      
+          <!-- Amount Column -->
+          <ng-container matColumnDef="Salary">
+            <th mat-header-cell *matHeaderCellDef> Salary </th>
+            <td mat-cell *matCellDef="let element">{{element.salary}}</td>
+          </ng-container>
+      
+          <!-- OrderId Column -->
+          <ng-container matColumnDef="Email">
+            <th mat-header-cell *matHeaderCellDef> Email </th>
+            <td mat-cell *matCellDef="let element">{{element.email}}</td>
+          </ng-container>
+  
+          <!-- TrackNumber Column -->
+          <ng-container matColumnDef="Department">
+            <th mat-header-cell *matHeaderCellDef> Department </th>
+            <td mat-cell *matCellDef="let element">{{element.department}}</td>
+          </ng-container>
+   
+          <!-- Date Created Column -->
+          <ng-container matColumnDef="DateCreated">
+            <th mat-header-cell *matHeaderCellDef> Date Created </th>
+            <td mat-cell *matCellDef="let element">{{element.dateCreated  | date: 'dd MMMM yyyy'}}</td>
+          </ng-container>
+  
+          <ng-container matColumnDef="Actions" >
+            <mat-header-cell *matHeaderCellDef></mat-header-cell>
+            <mat-cell *matCellDef="let element;">
+              <button mat-icon-button (click)="onSelected(element)"  (click)="openUpdateModal()">
+                <mat-icon  style="color: yellow;">launch</mat-icon>        
+              </button>
+              <button mat-icon-button (click)="onSelected(element)" (click)="openDeleteModal()">
+                <mat-icon style="color: red;">delete</mat-icon>
+              </button>
+            </mat-cell>
+          </ng-container>
+  
+          <!-- Row shown when there is no matching data. -->
+      <tr class="mat-row" *matNoDataRow>
+        <td class="mat-cell" colspan="8" style="text-align: center;">No data available</td>
+      </tr>
+      
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+      
+        <mat-paginator [pageSizeOptions]="[5, 10, 15, 20]"
+                       showFirstLastButtons
+                       aria-label="Select page of orders">
+        </mat-paginator>
+      </div>
+    </div>
+  
+    <!-------------------------------- Update Modal   ---------------------->
+    <ng-template #updateModal>
+      <h1 mat-dialog-title>Edit Shipping Address</h1>
+      <div>
+            <form [formGroup]="updateForm" autocomplete="off">
+              <div class=""> 
+                  <mat-form-field appearance="fill" class="offset mat-form-field">
+                      <mat-label>Enter Shipping Address</mat-label>
+                      <textarea matInput placeholder="Name" formControlName="name" [(ngModel)]="selectedEmployee.ShippingAddress"></textarea>
+                    </mat-form-field>
+              </div>
+      
+              <div class="offset">
+                <button mat-fab extended style="color: black;" (click)="closeModal()"> 
+                  <mat-icon>cancel</mat-icon>Cancel
+                </button>
+                <button class="offset" (click)="updateShippinOrders()" class="addOrder" mat-fab extended color="warn" style="color: white;"> 
+                  <mat-icon>update</mat-icon>Update
+                </button>
+              </div>
+            </form>
+          </div>
+    </ng-template>
+
+    <!-------------------------------- Delete Modal   ---------------------->
+    <ng-template #deleteModal>
+      <h1 mat-dialog-title>Are you sure you want to delete?</h1>
+      <div>
+            <form [formGroup]="updateForm" autocomplete="off">
+              <div class="offset">
+                <button mat-fab extended style="color: black;" (click)="closeModal()"> 
+                  <mat-icon>cancel</mat-icon>No
+                </button>
+                <button class="offset" (click)="deleteOrder()" class="addOrder" mat-fab extended color="warn" style="color: white;"> 
+                  <mat-icon>delete</mat-icon>Yes
+                </button>
+              </div>
+            </form>
+          </div>
+    </ng-template>
+
+    <!-------------------------------- Create Modal   ---------------------->
+    <ng-template #newModal>
+      <h1 mat-dialog-title>Create New Order</h1>
+      <div>
+            <form [formGroup]="employeeForm" autocomplete="off">
+              <div class="offset">
+                <mat-form-field appearance="fill">
+                    <mat-label>Enter Product Name</mat-label>
+                    <input matInput placeholder="Product Name" formControlName="productName" type="text">
+                  </mat-form-field>
+        
+                  <mat-form-field appearance="fill" class="offset">
+                    <mat-label>Select Currency</mat-label>
+                    <mat-select formControlName="unit">
+                      <mat-option value=1 type= "number">NGN</mat-option>
+                      <mat-option value=2>USD</mat-option>
+                      <mat-option value=3>EUR</mat-option>
+                    </mat-select>
+                </mat-form-field>
+    
+                <mat-form-field appearance="fill" class="offset">
+                    <mat-label>Enter Amount</mat-label>
+                    <input matInput placeholder="Amount" formControlName="amount" type="number">
+                  </mat-form-field>
+            </div>
+            <div>    
+                <mat-form-field appearance="fill" class="offset mat-form-field">
+                    <mat-label>Enter Shipping Address</mat-label>
+                    <textarea matInput placeholder="Shipping Address" formControlName="shippingAddress"></textarea>
+                  </mat-form-field>
+            </div>
+    
+            <div class="offset">
+              <button (click)="closeModal()" class="addOrder" mat-fab extended style="color: black;"> 
+                <mat-icon>cancel</mat-icon>Cancel
+              </button>
+              <button class="addOrder" (click)="createOrder()" mat-fab extended color="primary" style="color: white;"> 
+                <mat-icon>save</mat-icon>Save
+              </button>
+            </div>
+            </form>
+          </div>
+    </ng-template>

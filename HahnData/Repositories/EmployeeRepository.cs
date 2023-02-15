@@ -80,8 +80,10 @@ namespace HahnData.Repositories
 								.Take(validFilter.PageSize)
 								.OrderByDescending(x => x.DateCreated)
 								.ToListAsync();
+
+				var rec = await _context.Employees.Where(x => x.IsActive && !x.IsDeleted).OrderByDescending(x => x.DateCreated).ToListAsync();
 				var totalRecords = await _context.Employees.Where(x => x.IsActive && !x.IsDeleted).CountAsync();
-				return new Tuple<List<Employee>, int>(pagedData, totalRecords); 
+				return new Tuple<List<Employee>, int>(rec, totalRecords); 
 			}
 			catch (Exception ex)
 			{

@@ -1,0 +1,11 @@
+version: '3.4'
+
+services:
+  shoppingcartui:
+    image: shoppingcartui
+    build: 
+       context: ./shoppingCartUI
+       dockerfile: ./DockerFile
+    ports:
+      - 4201:80
+    
