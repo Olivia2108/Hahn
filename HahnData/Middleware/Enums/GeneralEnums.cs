@@ -22,5 +22,15 @@ namespace HahnData.Middleware.Enums
 			Delete = 2,
 
 		}
+		public enum Department
+		{
+			Legal,
+			Technology,
+			Administative,
+			HR,
+			Suport,
+			Business
+
+		}
 	}
 }

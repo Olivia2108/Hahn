@@ -1,4 +1,4 @@
-<div class="toolbar" role="banner">
+<div class="toolbar" role="banner" style="background-color: #198754;">
     <img
       width="40"
       alt="Hahn Logo"
@@ -17,7 +17,7 @@
         
         <div class="row">
           <div style="float:right">
-            <button mat-raised-button (click)="openNewModal()" class="addEmployee2" extended color="warn" style="color:white; background-color: green;">Add Employee</button>
+            <button mat-raised-button (click)="openNewModal()" class="addEmployee2" extended color="warn" style="color:white; background-color: #198754;">Add Employee</button>
             
           </div>
         </div>
@@ -77,7 +77,7 @@
             <mat-header-cell *matHeaderCellDef></mat-header-cell>
             <mat-cell *matCellDef="let element;">
               <button mat-icon-button (click)="onSelected(element)"  (click)="openUpdateModal()">
-                <mat-icon  style="color: yellow;">launch</mat-icon>        
+                <mat-icon  style="color: #198754;">launch</mat-icon>        
               </button>
               <button mat-icon-button (click)="onSelected(element)" (click)="openDeleteModal()">
                 <mat-icon style="color: red;">delete</mat-icon>
@@ -105,7 +105,7 @@
     <ng-template #updateModal>
       <h1 mat-dialog-title>Edit Employee Details</h1>
       <div>
-            <form [formGroup]="updateForm" autocomplete="off">
+            <form [formGroup]="updateForm" autocomplete="off" style="padding-bottom: 40px">
               <div class=""> 
                   <mat-form-field appearance="fill" class="offset mat-form-field">
                       <mat-label>Name</mat-label>
@@ -150,20 +150,13 @@
                   </mat-select>
                 </mat-form-field>
               </div>
-               
-   
-              <!-- <div class=""> 
-                <mat-form-field appearance="fill" class="offset mat-form-field">
-                    <mat-label>Department</mat-label>
-                    <input  matInput placeholder="Department" formControlName="Department" [(ngModel)]="selectedEmployee.department"/> 
-                  </mat-form-field>
-              </div>
-       -->
+                
               <div class="offset">
                 <button mat-fab extended style="color: black;" (click)="closeModal()"> 
                   <mat-icon>cancel</mat-icon>Cancel
                 </button>
-                <button class="offset" (click)="updateEmployee()" class="addEmployee" mat-fab extended color="green" style="color: white;"> 
+                <button class="offset" (click)="updateEmployee()" class="addEmployee" mat-fab extended color="green" 
+                style="color: white;background-color: #198754; margin-left:20px; "> 
                   <mat-icon>update</mat-icon>Update
                 </button>
               </div>
@@ -180,7 +173,8 @@
                 <button mat-fab extended style="color: black;" (click)="closeModal()"> 
                   <mat-icon>cancel</mat-icon>No
                 </button>
-                <button class="offset" (click)="deleteEmployee()" class="addEmployee" mat-fab extended color="warn" style="color: white;"> 
+                <button class="offset" (click)="deleteEmployee()" class="addEmployee" mat-fab extended color="green" 
+                style="color: white; background-color: #198754; margin-left:20px"> 
                   <mat-icon>delete</mat-icon>Yes
                 </button>
               </div>
@@ -192,7 +186,7 @@
     <ng-template #newModal>
       <h1 mat-dialog-title>Add New Employee</h1>
       <div>
-            <form [formGroup]="employeeForm" autocomplete="off">
+            <form [formGroup]="employeeForm" autocomplete="off" style="padding-bottom: 40px">
               <div class="offset">
                 <div>
 
@@ -248,17 +242,23 @@
                     </mat-select>
                   </mat-form-field>
                 </div>
-                 
+                  
      
             </div> 
     
             <div class="offset">
-              <button (click)="closeModal()" class="addEmployee" mat-fab extended style="color: black;"> 
-                <mat-icon>cancel</mat-icon>Cancel
-              </button>
-              <button class="addEmployee" (click)="createEmployee()" mat-fab extended color="primary" style="color: white;"> 
-                <mat-icon>save</mat-icon>Save
-              </button>
+              <div class="row" style="margin-left:35px">
+
+                <button (click)="closeModal()" class="addEmployee" mat-fab extended style="color: black;"> 
+                  <mat-icon>cancel</mat-icon>Cancel
+                </button>
+                <button class="addEmployee" (click)="createEmployee()" mat-fab extended color="primary" 
+                style="color: white; background-color: #198754; margin-left:20px"> 
+                  <mat-icon>save</mat-icon>Save
+                </button>
+
+              </div>
+              
             </div>
             </form>
           </div>

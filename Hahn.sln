@@ -12,7 +12,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HahnDomain", "HahnDomain\Ha
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HahnData", "HahnData\HahnData.csproj", "{EFB7F3A9-8D2F-471C-9250-E8201C8D05D1}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HahnTest", "HahnTest\HahnTest.csproj", "{DBC23E9C-9E4E-4FDC-838C-0E24445D5F54}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HahnUnitTest", "HahnUnitTest\HahnUnitTest.csproj", "{34AC166B-5187-4216-8E6E-5AA8CDCADC84}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -32,10 +32,10 @@ Global
 		{EFB7F3A9-8D2F-471C-9250-E8201C8D05D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EFB7F3A9-8D2F-471C-9250-E8201C8D05D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EFB7F3A9-8D2F-471C-9250-E8201C8D05D1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DBC23E9C-9E4E-4FDC-838C-0E24445D5F54}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DBC23E9C-9E4E-4FDC-838C-0E24445D5F54}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DBC23E9C-9E4E-4FDC-838C-0E24445D5F54}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DBC23E9C-9E4E-4FDC-838C-0E24445D5F54}.Release|Any CPU.Build.0 = Release|Any CPU
+		{34AC166B-5187-4216-8E6E-5AA8CDCADC84}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{34AC166B-5187-4216-8E6E-5AA8CDCADC84}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{34AC166B-5187-4216-8E6E-5AA8CDCADC84}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{34AC166B-5187-4216-8E6E-5AA8CDCADC84}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

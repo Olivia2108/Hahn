@@ -201,11 +201,18 @@ namespace HahnDomain.Services
 				switch (result)
 				{
 
-					case 0:
+					case 0: 
 						return new ApiResponseDto
 						{
 							Message = ResponseConstants.NotUpdated,
 							Success = false
+						};
+
+					case -4:
+						return new ApiResponseDto
+						{
+							Message = ResponseConstants.NotFound,
+							Success = true
 						};
 					default:
 						return new ApiResponseDto
@@ -240,7 +247,7 @@ namespace HahnDomain.Services
 						return new ApiResponseDto
 						{
 							Message = ResponseConstants.NotDeleted,
-							Success = false
+							Success = true
 						};
 					case var delete when delete == (int)DbInfo.ErrorThrown:
 						return new ApiResponseDto

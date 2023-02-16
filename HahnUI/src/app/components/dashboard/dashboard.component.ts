@@ -8,6 +8,8 @@ import {MatTable, MatTableDataSource} from '@angular/material/table';
 import { ApiService } from 'src/app/services/employee.service';
 import { NotificationService } from 'src/app/services/notification.service';
 import { Employee } from 'src/app/Models/employee.model';
+import { HttpErrorResponse } from '@angular/common/http';
+import { catchError, of } from 'rxjs';
 
 
 @Component({
@@ -21,6 +23,8 @@ export class DashboardComponent implements OnInit {
     Id: string;
     DateCreated: string;
     ipAddress: string;
+    showValidationError: boolean;
+    validationError: any;
 
   result: any[] = [];
   employeeForm: FormGroup;
@@ -44,10 +48,10 @@ export class DashboardComponent implements OnInit {
 
                 this.employeeForm = this._formBuilder.group({
       name: ["", [Validators.required]],
-      email: ["", Validators.required, Validators.email],
-      phone: ["", Validators.required, Validators.minLength(11), Validators.maxLength(11)],
-      salary: ["", Validators.required],
-      department: ["", Validators.required], 
+      email: ["", [Validators.required, Validators.email]],
+      phone: ["", [Validators.required, Validators.minLength(11), Validators.maxLength(11)]],
+      salary: ["", [Validators.required]],
+      department: ["", [Validators.required]], 
     });
 
     this.updateForm = this._formBuilder.group({
@@ -87,13 +91,27 @@ export class DashboardComponent implements OnInit {
 
   /* ----------==========     Get All Employees    ==========---------- */
   getAllEmployees(){
-    this.apiService.getAllEmployee().subscribe((data:any) =>{
-      this.employee = data.data;
-      console.log(this.employee);
-      this.dataSource = new MatTableDataSource<Employee>(this.employee)
-      this.dataSource.paginator = this.paginator;
+    this.apiService.getAllEmployee()
+    .subscribe({
+      next: (data: any) => {
+        this.employee = data.data;
+        console.log(this.employee);
+        this.dataSource = new MatTableDataSource<Employee>(this.employee)
+        this.dataSource.paginator = this.paginator;
 
-   })
+      }, 
+      error : (response) =>{ 
+        console.log(response);
+        this.notificationService.error(response.error.message); 
+      }
+    });
+  //   .subscribe((data:any) =>{
+  //     this.employee = data.data;
+  //     console.log(this.employee);
+  //     this.dataSource = new MatTableDataSource<Employee>(this.employee)
+  //     this.dataSource.paginator = this.paginator;
+
+  //  })
   }
 
   
@@ -113,13 +131,23 @@ export class DashboardComponent implements OnInit {
         "ipAddress": this.ipAddress
          
       }
-      this.apiService.createEmployee(model).subscribe((data:any) =>{
-        this.employeeForm.reset();
-        this.closeModal();
-        window.location.reload();
-        this.notificationService.success("Employee created successfuly");
- 
-      })
+       
+      this.apiService.createEmployee(model) 
+      .subscribe({
+        next: (data: any) => {
+          console.log(data);
+          this.employeeForm.reset();
+          this.closeModal();
+          window.location.reload();
+          this.notificationService.success("Employee created successfuly");
+
+        }, 
+        error : (response) =>{ 
+          console.log(response);
+          this.notificationService.error(response.error.message); 
+        }
+      });  
+      
     }
     
     
@@ -136,23 +164,39 @@ export class DashboardComponent implements OnInit {
         ipAddress: this.ipAddress
 
       }
-      this.apiService.updateEmployee(this.Id, model).subscribe((data:any) =>{
-        this.closeModal();
-        window.location.reload();
-        this.notificationService.success("Employee Information updated successfuly");
-     })
+      this.apiService.updateEmployee(this.Id, model)
+      .subscribe({
+        next: (data: any) => {
+          this.closeModal();
+          window.location.reload();
+          this.notificationService.success("Employee Information updated successfuly");
+
+
+        }, 
+        error : (response) =>{ 
+          console.log(response);
+          this.notificationService.error(response.error.message); 
+        }
+      }); 
   }
 
     /* ----------==========     Delete Employee    ==========---------- */
     deleteEmployee(){
       this.Id = this.selectedEmployee.id;
       console.log(this.Id);
-      this.apiService.deleteEmployee(this.Id, this.ipAddress).subscribe((data:any) =>{
-        this.notificationService.success("Employee deleted successfuly");
-        this.closeModal();
-        window.location.reload();
-     }
-    )
+      this.apiService.deleteEmployee(this.Id, this.ipAddress)
+      .subscribe({
+        next: (data: any) => {
+          this.notificationService.success("Employee deleted successfuly");
+          this.closeModal();
+          window.location.reload();
+        }, 
+        error : (response) =>{ 
+          console.log(response);
+          this.notificationService.error(response.error.message);  
+          //window.location.reload();
+        }
+      }); 
   }
 
     openUpdateModal(){

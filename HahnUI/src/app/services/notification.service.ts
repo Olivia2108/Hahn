@@ -1,5 +1,6 @@
 import { Component, Inject, Injectable } from "@angular/core";
-import { MatSnackBar } from "@angular/material/snack-bar";
+import { MatSnackBar,MatSnackBarConfig  } from "@angular/material/snack-bar";
+
 import {
   MatDialog,
   MatDialogRef,
@@ -110,7 +111,7 @@ export class NotificationService {
   openSnackBar(
     message: string,
     action: string,
-    className = "",
+    className = "custom-class",
     duration = 4000
   ) {
     this.snackBar.open(message, action, {
@@ -134,11 +135,11 @@ export interface DialogData {
       {{ data.message }}
     </div>
     <div mat-dialog-actions>
-      <a class="btn btn-danger btn-sm btn-round" (click)="onNoClick()">
+      <a class="btn btn-danger btn-sm"  (click)="onNoClick()">
         Cancel
       </a>
       <a
-        class="btn btn-success btn-sm btn-round"
+        class="btn btn-success btn-sm"
         (click)="onYesClick()"
         cdkFocusInitial
       >
@@ -173,8 +174,7 @@ export class ConfirmationDialog {
         mat-raised-button
         color="primary"
         (click)="onYesClick()"
-        cdkFocusInitial
-      >
+        cdkFocusInitial >
         Ok
       </button>
     </div>

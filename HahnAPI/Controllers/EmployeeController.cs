@@ -5,6 +5,7 @@ using HahnDomain.Middleware.Constants;
 using HahnDomain.Middleware.Exceptions;
 using HahnDomain.Services.Contracts; 
 using Microsoft.AspNetCore.Mvc;
+using HahnData.Middleware.Constants;
 
 namespace HahnAPI.Controllers
 {
@@ -48,14 +49,29 @@ namespace HahnAPI.Controllers
 			try
 			{
 				var result = await _employeeService.GetEmployees();
-				return result.Success ? Ok(result) : BadRequest(result);
+				switch (result.Success)
+				{
+					case false:
+						return BadRequest(result);
 
+					case true:
+						switch (result.Message)
+						{
+							case ResponseConstants.NotFound:
+								return NotFound(result);
+
+							case ResponseConstants.Found:
+								return Ok(result);
+						}
+						break;
+				}
+				 
 			}
 			catch (Exception ex)
 			{
 				LoggerMiddleware.LogError($"{ex.Message}  : with stack trace......  {ex.StackTrace}");
-				return BadRequest(new ApiResponseDto { Message = ErrorConstants.Error}) ;
-			}
+			} 
+			return BadRequest(new ApiResponseDto { Message = ErrorConstants.Error });
 		}
 
 
@@ -80,14 +96,29 @@ namespace HahnAPI.Controllers
 				 
 
 				var result = await _employeeService.GetEmployeeById(employeeId);
-				return result.Success ? Ok(result) : BadRequest(result);
+				switch (result.Success)
+				{
+					case false:
+						return BadRequest(result);
+
+					case true:
+						switch (result.Message)
+						{
+							case ResponseConstants.NotFound:
+								return NotFound(result);
+
+							case ResponseConstants.Found:
+								return Ok(result);
+						}
+						break;
+				} 
 
 			}
 			catch (Exception ex)
 			{
 				LoggerMiddleware.LogError($"{ex.Message}  : with stack trace......  {ex.StackTrace}");
-				return BadRequest(new ApiResponseDto { Message = ErrorConstants.Error });
 			}
+			return BadRequest(new ApiResponseDto { Message = ErrorConstants.Error });
 		}
 
 
@@ -100,14 +131,30 @@ namespace HahnAPI.Controllers
 			try
 			{
 				var result = await _employeeService.UpdateEmployees(employee, employeeId);
-				return result.Success ? Ok(result) : BadRequest(result);
+				switch (result.Success)
+				{
+					case false:
+						return BadRequest(result);
+
+					case true:
+						switch (result.Message)
+						{
+							case ResponseConstants.NotFound:
+								return NotFound(result);
+
+							case ResponseConstants.Updated:
+								return Ok(result);
+						}
+						break;
+				}
+				 
 
 			}
 			catch (Exception ex)
 			{
 				LoggerMiddleware.LogError($"{ex.Message}  : with stack trace......  {ex.StackTrace}");
-				return BadRequest(new ApiResponseDto { Message = ErrorConstants.Error });
 			}
+			return BadRequest(new ApiResponseDto { Message = ErrorConstants.Error });
 		}
 
 
@@ -118,15 +165,32 @@ namespace HahnAPI.Controllers
 		{
 			try
 			{
-				var result = await _employeeService.DeleteEmployeeById(employeeId, ipAddress);
-				return result.Success ? Ok(result) : BadRequest(result);
+				var result = await _employeeService.DeleteEmployeeById(employeeId, ipAddress); 
+				switch (result.Success)
+				{
+					case false:
+						return BadRequest(result);
+
+					case true:
+						switch (result.Message)
+						{
+							case ResponseConstants.NotDeleted:
+								return NotFound(result);
+								  
+							case ResponseConstants.Deleted:
+								return Ok(result);
+						}
+						break;
+				}
+
 
 			}
 			catch (Exception ex)
 			{
 				LoggerMiddleware.LogError($"{ex.Message}  : with stack trace......  {ex.StackTrace}");
-				return BadRequest(new ApiResponseDto { Message = ErrorConstants.Error });
 			}
+
+			return BadRequest(new ApiResponseDto { Message = ErrorConstants.Error });
 		}
 	}
 }
