@@ -1,10 +1,10 @@
 version: '3.4'
 
 services:
-  shoppingcartui:
-    image: shoppingcartui
+  hahnui:
+    image: hahnui
     build: 
-       context: ./shoppingCartUI
+       context: ./hahnUI
        dockerfile: ./DockerFile
     ports:
       - 4201:80

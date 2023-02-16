@@ -48,7 +48,7 @@ namespace HahnAPI.Controllers
 			try
 			{
 				var result = await _employeeService.GetEmployees();
-				return result.Success ? Ok(result.Data) : BadRequest(result);
+				return result.Success ? Ok(result) : BadRequest(result);
 
 			}
 			catch (Exception ex)

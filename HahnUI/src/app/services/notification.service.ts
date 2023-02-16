@@ -111,7 +111,7 @@ export class NotificationService {
     message: string,
     action: string,
     className = "",
-    duration = 1000
+    duration = 4000
   ) {
     this.snackBar.open(message, action, {
       duration: duration,
@@ -138,7 +138,7 @@ export interface DialogData {
         Cancel
       </a>
       <a
-        class="btn btn-primary btn-sm btn-round"
+        class="btn btn-success btn-sm btn-round"
         (click)="onYesClick()"
         cdkFocusInitial
       >

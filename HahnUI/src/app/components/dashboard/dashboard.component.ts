@@ -4,10 +4,10 @@ import {Component, ViewChild, OnInit, TemplateRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog} from '@angular/material/dialog';
 import {MatPaginator} from '@angular/material/paginator';
-import {MatTable, MatTableDataSource} from '@angular/material/table' 
-import { Employee } from 'src/app/Models/Employee';
-import { ApiService } from 'src/app/services/api.service';
+import {MatTable, MatTableDataSource} from '@angular/material/table';  
+import { ApiService } from 'src/app/services/employee.service';
 import { NotificationService } from 'src/app/services/notification.service';
+import { Employee } from 'src/app/Models/employee.model';
 
 
 @Component({
@@ -44,7 +44,7 @@ export class DashboardComponent implements OnInit {
 
                 this.employeeForm = this._formBuilder.group({
       name: ["", [Validators.required]],
-      email: ["", Validators.required],
+      email: ["", Validators.required, Validators.email],
       phone: ["", Validators.required, Validators.minLength(11), Validators.maxLength(11)],
       salary: ["", Validators.required],
       department: ["", Validators.required], 
@@ -88,7 +88,7 @@ export class DashboardComponent implements OnInit {
   /* ----------==========     Get All Employees    ==========---------- */
   getAllEmployees(){
     this.apiService.getAllEmployee().subscribe((data:any) =>{
-      this.employee = data;
+      this.employee = data.data;
       console.log(this.employee);
       this.dataSource = new MatTableDataSource<Employee>(this.employee)
       this.dataSource.paginator = this.paginator;
@@ -114,10 +114,11 @@ export class DashboardComponent implements OnInit {
          
       }
       this.apiService.createEmployee(model).subscribe((data:any) =>{
-        this.notificationService.success("Employee created successfuly");
         this.employeeForm.reset();
         this.closeModal();
         window.location.reload();
+        this.notificationService.success("Employee created successfuly");
+ 
       })
     }
     
@@ -136,9 +137,9 @@ export class DashboardComponent implements OnInit {
 
       }
       this.apiService.updateEmployee(this.Id, model).subscribe((data:any) =>{
-        this.notificationService.success("Employee Information updated successfuly");
         this.closeModal();
         window.location.reload();
+        this.notificationService.success("Employee Information updated successfuly");
      })
   }
 
