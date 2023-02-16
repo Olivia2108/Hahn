@@ -83,7 +83,9 @@ namespace HahnData.Repositories
 			}
 		}
 
+		//: 'The source 'IQueryable' doesn't implement 'IAsyncEnumerable<HahnData.Models.Employee>'. Only sources that implement 'IAsyncEnumerable' can be used for Entity Framework asynchronous operations.'
 
+		//The provider for the source 'IQueryable' doesn't implement 'IAsyncQueryProvider'. Only providers that implement 'IAsyncQueryProvider' can be used for Entity Framework asynchronous operations.'
 
 
 		public async Task<Employee> GetEmployeeById(long employeeId)

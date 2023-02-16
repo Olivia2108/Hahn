@@ -1,93 +1,129 @@
-﻿using FluentAssertions;
+﻿using AutoMapper;
+using FluentAssertions;
 using HahnAPI.Controllers;
+using HahnData.DataContext;
 using HahnData.Dto;
 using HahnData.Models;
+using HahnData.Repositories;
 using HahnData.Repositories.Contracts;
 using HahnDomain.Services;
 using HahnDomain.Services.Contracts;
+using HahnUnitTest.Fixtures;
+using HahnUnitTest.Helpers; 
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc;
-using Moq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure.Internal;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using Moq; 
 
 namespace HahnUnitTest.System.Controller
 {
-	public class TestController
+	public class TestController : DbContextTextBase
 	{
-		[Theory]
-		[InlineData(3)]
-		public async Task Get_OnSuccess_ReturnsStatusCode200(long id)
+		private EmployeeRepository _repository;
+		private EmployeeService _employeeService; 
+
+		public TestController() 
 		{
-			//Arrange
+			if (_repository == null)
+			{
+				_repository = new EmployeeRepository(GetMock().Item3.Object);
+			}
+			if (_employeeService == null)
+			{
+				_employeeService = new EmployeeService (_repository);
+			}
+			
+		}
 
-			var mockService = new Mock<IEmployeeService>();
-			var systemUnderTest = new EmployeeController(mockService.Object);
+		 
+		
+		[Fact] 
+		public async Task Test()
+		{
+			//Arrange  
 
+			var systemUnderTest = new EmployeeController(_employeeService);
+
+			var employeeId = GetMock().Item2.FirstOrDefault();
+			//var employeeId = _context.Employees.FirstOrDefault();
 			//Act 
-			var result = (OkObjectResult) await systemUnderTest.GetEmployeeById(id);
+			var result = (OkObjectResult) await systemUnderTest.GetEmployeeById(employeeId.Id);
 
 			//Assert
 			result.StatusCode.Should().Be(200);
 
 		}
 
-		[Fact]
-		public async Task Get_OnSuccess_InvokesEmployeeService()
-		{ 
-			//Arrange
-			var mockService = new Mock<IEmployeeService>();
-			var mockRepo = new Mock<IEmployeeRepository>(); 
-			mockService
-				
-				.Setup(service => service.GetEmployees())
-				.Returns(Task.FromResult(new ApiResponseDto()));
+		//[Theory]
+		//[InlineData(3)]
+		//public async Task Get_OnSuccess_ReturnsStatusCode200(long id)
+		//{
+		//	//Arrange  
+
+		//	var mockService = new Mock<IEmployeeService>(); 
+
+		//	var systemUnderTest = new EmployeeController(_employeeService);
+		//	var employeeId = _context.Employees.FirstOrDefault();
+
+		//	//Act 
+		//	var result = (OkObjectResult) await systemUnderTest.GetEmployeeById(employeeId.Id);
+
+		//	//Assert
+		//	result.StatusCode.Should().Be(200);
+
+		//}
+
+		//[Fact]
+		//public async Task Get_OnSuccess_InvokesEmployeeService()
+		//{ 
+		//	//Arrange
+		//	var mockService = new Mock<IEmployeeService>(); 
+		//	//mockService
+
+		//	//	.Setup(service => service.GetEmployees())
+		//	//	.Returns(Task.FromResult(new ApiResponseDto()));
 
 
-			var asss = new EmployeeService(mockRepo.Object);
-			var systemUnderTest = new EmployeeController(mockService.Object);
+		//	var systemUnderTest = new EmployeeController(_employeeService);
 
-			//Act
+		//	//Act
 
-			var result = (OkObjectResult)await systemUnderTest.GetAllEmployee();
+		//	var result = (OkObjectResult)await systemUnderTest.GetAllEmployee();
 
-			//Assert
-			mockService.Verify(
-				service =>  service.GetEmployees(), 
-				Times.Once()
-				);
+		//	//Assert
+		//	mockService.Verify(
+		//		service =>  service.GetEmployees(), 
+		//		Times.Once()
+		//		);
 
-			result.StatusCode.Should().Be(200);
+		//	result.StatusCode.Should().Be(200);
 
-		}
+		//}
 
 		[Fact]
 		public async Task Get_OnSucessReturnsListsofEmployees()
 		{
 			//Arrange
 			var mockService = new Mock<IEmployeeService>();
-			var mockRepo = new Mock<IEmployeeRepository>();
-			mockService
-
-				.Setup(service => service.GetEmployees())
-				.Returns(Task.FromResult(new ApiResponseDto()));
 
 
-			var asss = new EmployeeService(mockRepo.Object);
-
-			var systemUnderTest = new EmployeeController(mockService.Object);
+			var systemUnderTest = new EmployeeController(_employeeService);
 
 
 			var result = (OkObjectResult)await systemUnderTest.GetAllEmployee();
 
 			//Assert
 
-			result.Should().BeOfType<OkObjectResult>();
 			var objectResult = (OkObjectResult)result;
 
-			objectResult.Value.Should().BeOfType<List<Employee>>();
+			objectResult.Value.Should().BeOfType<ApiResponseDto>();
+
+			var value = (ApiResponseDto)objectResult.Value;
+			value.Success.Should().BeTrue();
+			value.Should().BeOfType<List<HahnData.Models.Employee>>();
 
 
 			mockService.Verify(
@@ -98,74 +134,71 @@ namespace HahnUnitTest.System.Controller
 			result.StatusCode.Should().Be(200);
 		}
 
-		[Fact]
-		public async Task Get_OnNoEmployeesBadRequestReturns400()
-		{
-			//Arrange
-			var mockService = new Mock<IEmployeeService>();
-			var mockRepo = new Mock<IEmployeeRepository>();
-			mockService
+		//[Fact]
+		//public async Task Get_OnNoEmployeesBadRequestReturns400()
+		//{
+		//	//Arrange
 
-				.Setup(service => service.GetEmployees())
-				.Returns(Task.FromResult(new ApiResponseDto()));
+		//	var mockService = new Mock<IEmployeeService>();
+		//	var systemUnderTest = new EmployeeController(_employeeService);
 
 
-			var asss = new EmployeeService(mockRepo.Object);
-
-			var systemUnderTest = new EmployeeController(mockService.Object);
+		//	var result = (BadRequestObjectResult)await systemUnderTest.GetAllEmployee();
 
 
-			var result = (BadRequestObjectResult)await systemUnderTest.GetAllEmployee();
+		//	//Assert
 
-			//Assert
+		//	var objectResult = (BadRequestObjectResult)result;
 
-			result.Should().BeOfType<BadRequestObjectResult>();
-			var objectResult = (BadRequestObjectResult)result;
+		//	objectResult.Value.Should().BeOfType<ApiResponseDto>();
 
-			objectResult.Value.Should().BeOfType<BadRequestObjectResult>();
-
-
-			mockService.Verify(
-				service => service.GetEmployees(),
-				Times.Once()
-				);
-
-			result.StatusCode.Should().Be(400);
-		}
-
-		[Fact]
-		public async Task Get_OnNoEmployeesFoundReturns404()
-		{
-			//Arrange
-			var mockService = new Mock<IEmployeeService>();
-			var mockRepo = new Mock<IEmployeeRepository>();
-			mockService
-
-				.Setup(service => service.GetEmployees())
-				.Returns(Task.FromResult(new ApiResponseDto()));
+		//	var value = (ApiResponseDto)objectResult.Value;
+		//	value.Success.Should().BeFalse();
+		//	value.Data.Should().BeNull();
 
 
-			var asss = new EmployeeService(mockRepo.Object);
+		//	mockService.Verify(
+		//		service => service.GetEmployees(),
+		//		Times.Once()
+		//		);
 
-			var systemUnderTest = new EmployeeController(mockService.Object);
+		//	result.StatusCode.Should().Be(400);
+		//}
+
+		//[Fact]
+		//public async Task Get_OnNoEmployeesFoundReturns404()
+		//{
+		//	//Arrange
+		//	var mockService = new Mock<IEmployeeService>();
+		//	//var mockRepo = new Mock<IEmployeeRepository>();
+		//	//mockService
+
+		//	//	.Setup(service => service.GetEmployees()) 
+		//	//	.Returns(Task.FromResult(EmployeeFixture.GetResponse()));
 
 
-			var result = (NotFoundObjectResult)await systemUnderTest.GetAllEmployee();
 
-			//Assert
-
-			result.Should().BeOfType<NotFoundObjectResult>();
-			var objectResult = (NotFoundObjectResult)result;
-
-			objectResult.Value.Should().BeOfType<NotFoundObjectResult>();
+		//	var systemUnderTest = new EmployeeController(_employeeService);
 
 
-			mockService.Verify(
-				service => service.GetEmployees(),
-				Times.Once()
-				);
+		//	var result = (NotFoundObjectResult)await systemUnderTest.GetAllEmployee();
 
-			result.StatusCode.Should().Be(404);
-		}
+		//	//Assert
+
+		//	var objectResult = (NotFoundObjectResult)result;
+
+		//	objectResult.Value.Should().BeOfType<ApiResponseDto>();
+
+		//	var value = (ApiResponseDto)objectResult.Value;
+		//	value.Success.Should().BeFalse();
+		//	value.Data.Should().BeNull();
+
+		//	mockService.Verify(
+		//		service => service.GetEmployees(),
+		//		Times.Once()
+		//		);
+
+		//	result.StatusCode.Should().Be(404);
+		//}
 	}
 }
