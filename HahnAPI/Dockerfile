@@ -3,13 +3,14 @@
 #Depending on the operating system of the host machines(s) that will build or run the containers, the image specified in the FROM statement may need to be changed.
 #For more information, please see https://aka.ms/containercompat
 
-FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
-WORKDIR /app
+FROM mcr.microsoft.com/dotnet/aspnet:6.0-alpine AS base
+WORKDIR /app 
+RUN apk add --no-cache icu-libs 
 EXPOSE 80
 EXPOSE 443
 
-FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
-WORKDIR /src
+FROM mcr.microsoft.com/dotnet/sdk:6.0-alpine AS build
+WORKDIR /src  
 COPY ["HahnAPI/HahnAPI.csproj", "HahnAPI/"]
 COPY ["HahnDomain/HahnDomain.csproj", "HahnDomain/"]
 COPY ["HahnData/HahnData.csproj", "HahnData/"]

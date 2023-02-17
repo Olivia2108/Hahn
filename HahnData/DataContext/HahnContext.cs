@@ -27,15 +27,16 @@ namespace HahnData.DataContext
         public virtual DbSet<Employee> Employees { get; set; }
         public virtual DbSet<AuditTrail> AuditTrails { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if (!optionsBuilder.IsConfigured)
-            {
+		protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+		{
+			if (!optionsBuilder.IsConfigured)
+			{
 
-                //optionsBuilder.UseSqlServer(config.GetValue<string>("ConnectionStrings:HahnConn"));
-                optionsBuilder.UseSqlServer("Server=(local); DataBase=Hahn;Integrated Security=true");
-            }
-        }
+				//optionsBuilder.UseSqlServer(config.GetValue<string>("ConnectionStrings:HahnConn"));
+				//optionsBuilder.UseSqlServer("Server=(local); DataBase=Hahn;Integrated Security=true");
+				//optionsBuilder.UseSqlServer("Data Source=hahnDb;  Initial Catalog=Hahn;  Persist Security Info=True;User ID=sa;Password=password@1;");
+			}
+		}
 
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)

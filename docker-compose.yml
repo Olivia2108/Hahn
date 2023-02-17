@@ -1,8 +1,57 @@
 version: '3.4'
 
+
+networks:
+    hahnapi:
+
+
 services:
+    
   hahnapi:
     image: ${DOCKER_REGISTRY-}hahnapi
+    container_name: hahnAPI
     build:
       context: .
-      dockerfile: HahnAPI\Dockerfile
+      dockerfile: HahnAPI/Dockerfile
+    depends_on: 
+        - hahnDb
+    environment:
+        - DB_HOST=hahnDb
+        - DB_NAME=Hahn
+        - DB_SA_PASSWORD=password@#1
+        - DB_CONNECTION_STRINGs=Server=hahnDb;Database=Hahn;User=sa;Password=password@#1
+        - DB_CONNECTION_STRING=Server=hahnDb;Database=Hahn;User ID=sa;Password=@1;MultipleActiveResultSets=True;
+    restart: unless-stopped
+    ports:
+        - "51898:80"
+    #expose:
+    #    - "51898"
+    #networks:
+    #    - hahnapi
+
+    
+  
+  hahnDb:
+    image:  "mcr.microsoft.com/mssql/server:2022-latest"
+    container_name: hahn-db 
+    restart: unless-stopped
+    environment:
+            - ACCEPT_EULA=Y
+            - MSSQL_SA_PASSWORD=password@#1
+    ports: 
+       - "1450:1433"
+
+    #networks:
+    #    - hahnapi
+
+ 
+
+  hahnui:
+    image: ${DOCKER_REGISTRY-}web
+    container_name: hahnUI
+    build: 
+       context: HahnUI
+       dockerfile: Dockerfile
+    ports: 
+       - 8030:80
+

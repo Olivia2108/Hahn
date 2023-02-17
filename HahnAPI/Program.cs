@@ -1,6 +1,7 @@
 using FluentValidation.AspNetCore;
 using HahnData.Common.Helpers;
 using HahnData.DataContext;
+using HahnData.DataContext.Infrastructure;
 using HahnData.Repositories;
 using HahnData.Repositories.Contracts;
 using HahnDomain.Common.Helpers;
@@ -9,8 +10,11 @@ using HahnDomain.Services;
 using HahnDomain.Services.Contracts;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Internal;
+using Microsoft.Extensions.Logging;
 using NLog;
 using NLog.Web;
+using System.Net;
 using System.Net.Mime;
 using System.Reflection;
 
@@ -19,8 +23,7 @@ namespace HahnAPI
 	public partial class Program
 	{
 		private static readonly string? Namespace = typeof(Program).Namespace;
-		public static readonly string? AppName = Namespace;
-		private static readonly NLog.ILogger logger = NLogBuilder.ConfigureNLog("nlog.config").GetCurrentClassLogger();
+		public static readonly string? AppName = Namespace; 
 
 		private static IConfiguration GetConfiguration()
 		{
@@ -32,7 +35,7 @@ namespace HahnAPI
 
 			return builder.Build();
 		}
-		private static IConfiguration Configuration { get; set; }
+		private static IConfiguration Configuration { get; set; } 
 
 		public static void Main(string[] args)
 		{
@@ -44,14 +47,29 @@ namespace HahnAPI
 
 				// Add services to the container.
 
-				builder.Services.AddControllers();
+				builder.Services.AddControllers(); 
 
-				//// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-				//builder.Services.AddEndpointsApiExplorer(); 
+
+				var env = Configuration.GetValue<string>("Env:docker");
+				string conectionStringn = string.Empty;
+				switch (env)
+				{
+					case "true":
+						conectionStringn = builder.Configuration.GetConnectionString("HahnConn_Docker");
+						break;
+
+					default:
+						conectionStringn = builder.Configuration.GetConnectionString("HahnConn_Local");
+						break;
+				}
+
+
 				builder.Services.AddDbContext<HahnContext>(options =>
 				{
-					options.UseSqlServer(builder.Configuration.GetConnectionString("HahnConn"));
+					options.UseSqlServer(conectionStringn, b => b.MigrationsAssembly(typeof(HahnContext).Assembly.FullName));
+					//options.UseSqlServer(builder.Configuration.GetConnectionString("HahnConn"));
 				});
+				 
 
 				builder.Services.AddServiceDependency(Configuration);
 				builder.Services.AddRepositoryDependency(Configuration);
@@ -63,6 +81,18 @@ namespace HahnAPI
 
 				//Configure Exception Middelware
 				app.UseMiddleware<ExceptionMiddleware>();
+
+
+				SeedDatabase();
+
+				void SeedDatabase()
+				{
+					using var scope = app.Services.CreateScope();
+					var scopedContext = scope.ServiceProvider.GetRequiredService<HahnContext>();
+					DbInitializer.Initializer(scopedContext);
+				}
+
+
 
 
 				// Configure the HTTP request pipeline.
@@ -99,7 +129,7 @@ namespace HahnAPI
 				{
 					throw;
 				}
-				logger.Fatal(ex, "Program terminated unexpectedly ({ApplicationContext})!", AppName);
+				LoggerMiddleware.LogError($"Program terminated unexpectedly (ApplicationContext)! with appname {AppName} and Ex.Message being {ex}" ) ; 
 			}
 			finally
 			{

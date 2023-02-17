@@ -14,7 +14,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HahnData", "HahnData\HahnDa
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HahnUnitTest", "HahnUnitTest\HahnUnitTest.csproj", "{34AC166B-5187-4216-8E6E-5AA8CDCADC84}"
 EndProject
-Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{E97D0AEF-1939-438A-AC5F-1E224AE9CEAD}"
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{68D88BBB-063A-4D29-9591-586D3DF89AE3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -38,10 +38,10 @@ Global
 		{34AC166B-5187-4216-8E6E-5AA8CDCADC84}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{34AC166B-5187-4216-8E6E-5AA8CDCADC84}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{34AC166B-5187-4216-8E6E-5AA8CDCADC84}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E97D0AEF-1939-438A-AC5F-1E224AE9CEAD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E97D0AEF-1939-438A-AC5F-1E224AE9CEAD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E97D0AEF-1939-438A-AC5F-1E224AE9CEAD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E97D0AEF-1939-438A-AC5F-1E224AE9CEAD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{68D88BBB-063A-4D29-9591-586D3DF89AE3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{68D88BBB-063A-4D29-9591-586D3DF89AE3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{68D88BBB-063A-4D29-9591-586D3DF89AE3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{68D88BBB-063A-4D29-9591-586D3DF89AE3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
