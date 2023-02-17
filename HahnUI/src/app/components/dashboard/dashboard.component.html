@@ -52,7 +52,7 @@
           <!-- Amount Column -->
           <ng-container matColumnDef="Salary">
             <th mat-header-cell *matHeaderCellDef> Salary </th>
-            <td mat-cell *matCellDef="let element">{{element.salary}}</td>
+            <td mat-cell *matCellDef="let element">${{element.salary}}</td>
           </ng-container>
       
           <!-- Email Column -->

@@ -130,6 +130,7 @@ namespace HahnDomain.Services
 			}
 		}
 
+
 		public async Task<ApiResponseDto> GetEmployeeById(long employeeId)
 		{
 			try
@@ -142,7 +143,7 @@ namespace HahnDomain.Services
 						return new ApiResponseDto
 						{
 							Message = ResponseConstants.NotFound,
-							Success = false
+							Success = true
 						};
 					default:
 						return new ApiResponseDto
@@ -195,6 +196,8 @@ namespace HahnDomain.Services
 					Email = employee.Email,
 					Name = employee.Name,
 					Phone = employee.Phone,
+					IpAddress= employee.IpAddress,
+
 				};
 
 				var result = await _employeeRepository.UpdateEmployeeInfo(Id, data);

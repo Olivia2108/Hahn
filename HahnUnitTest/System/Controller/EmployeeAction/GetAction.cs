@@ -126,7 +126,7 @@ namespace HahnUnitTest.System.Controller.EmployeeAction
 
 			//Assert 
 			result.Value.Should().BeOfType<ApiResponseDto>();
-			result.StatusCode.Should().Be(200);
+			result.StatusCode.Should().Be(404);
 
 			var value = (ApiResponseDto)result.Value;
 			value.Success.Should().BeTrue();

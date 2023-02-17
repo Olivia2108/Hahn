@@ -5,7 +5,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>360815e5-2ff8-457e-be6c-6f33bb6746d3</UserSecretsId>
-    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <DockerDefaultTargetOS>Windows</DockerDefaultTargetOS>
     <DockerfileContext>.</DockerfileContext>
   </PropertyGroup>
 
@@ -13,6 +13,7 @@
 	<PropertyGroup>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 		<NoWarn>$(NoWarn);1591</NoWarn>
+		<DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
 	</PropertyGroup>
 
   <ItemGroup>

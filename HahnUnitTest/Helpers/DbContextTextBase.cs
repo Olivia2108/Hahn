@@ -31,9 +31,9 @@ namespace HahnUnitTest.Helpers
 		}
 		private void Seed(HahnContext context)
 		{
-			var staff = EmployeeFixture.GenerateData(10);
+			var stub = EmployeeFixture.GenerateData(10);
 
-			foreach (var employee in staff)
+			foreach (var employee in stub)
 			{
 				context.Employees.AddAsync(employee);
 			}
@@ -43,12 +43,14 @@ namespace HahnUnitTest.Helpers
 			context.SaveChangesAsync();
 		}
 
+
+
 		public static Tuple<IEmployeeRepository, List<Employee>, Mock<HahnContext>> GetMock()
 		{
-			var staff = Fixtures.EmployeeFixture.GenerateData(10);
+			var stub = EmployeeFixture.GenerateData(10);
 
 
-			var data = staff.AsQueryable().BuildMock();
+			var data = stub.AsQueryable().BuildMock();
 			var mockDbContext = new Mock<HahnContext>();
 
 			var mockSet = new Mock<DbSet<Employee>>();
@@ -86,7 +88,7 @@ namespace HahnUnitTest.Helpers
 
 			IEmployeeRepository repository = new EmployeeRepository(mockDbContext.Object);
 
-			return new Tuple<IEmployeeRepository, List<Employee>, Mock<HahnContext>>(repository, staff, mockDbContext);
+			return new Tuple<IEmployeeRepository, List<Employee>, Mock<HahnContext>>(repository, stub, mockDbContext);
 		}
 
 	}

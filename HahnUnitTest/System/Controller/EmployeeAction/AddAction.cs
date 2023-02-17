@@ -41,8 +41,7 @@ namespace HahnUnitTest.System.Controller
 
 			var systemUnderTest = new EmployeeController(_employeeService); 
 
-			//var json = JsonConvert.SerializeObject(GetMock().Item2.FirstOrDefault());
-			var json = JsonConvert.SerializeObject(_context.Employees.FirstOrDefault());
+			var json = JsonConvert.SerializeObject(GetMock().Item2.FirstOrDefault()); 
 			var dto = JsonConvert.DeserializeObject<EmployeeDto>(json);
 			 
 			//Act 

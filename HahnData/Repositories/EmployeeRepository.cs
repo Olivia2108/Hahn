@@ -34,9 +34,8 @@ namespace HahnData.Repositories
 			try
 			{
 				await _context.Employees.AddAsync(data);
-				//var saves = await _context.SaveChangesAsync(data.IpAddress);
-				var saves = await _context.SaveChangesAsync();
-				return data.Id;
+				var saves = await _context.SaveChangesAsync(data.IpAddress); 
+				return saves;
 			}
 			catch (Exception ex)
 			{
@@ -82,10 +81,7 @@ namespace HahnData.Repositories
 				return new List<Employee>();
 			}
 		}
-
-		//: 'The source 'IQueryable' doesn't implement 'IAsyncEnumerable<HahnData.Models.Employee>'. Only sources that implement 'IAsyncEnumerable' can be used for Entity Framework asynchronous operations.'
-
-		//The provider for the source 'IQueryable' doesn't implement 'IAsyncQueryProvider'. Only providers that implement 'IAsyncQueryProvider' can be used for Entity Framework asynchronous operations.'
+		 
 
 
 		public async Task<Employee> GetEmployeeById(long employeeId)
@@ -121,8 +117,7 @@ namespace HahnData.Repositories
 				emply.Department = employee.Department;
 				emply.DateUpdated = DateTime.Now; 
 
-				//var save = await _context.SaveChangesAsync(employee.IpAddress);
-				var save = await _context.SaveChangesAsync();
+				var save = await _context.SaveChangesAsync(employee.IpAddress); 
 				return save;
 			}
 			catch (Exception ex)
@@ -149,8 +144,7 @@ namespace HahnData.Repositories
 				emply.IsDeleted = true;
 				emply.DateDeleted = DateTime.Now; 
 
-				//var save = await _context.SaveChangesAsync(ipAddress);
-				var save = await _context.SaveChangesAsync();
+				var save = await _context.SaveChangesAsync(ipAddress); 
 				return save;
 			}
 			catch (Exception ex)

@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  hahnapi:
+    image: ${DOCKER_REGISTRY-}hahnapi
+    build:
+      context: .
+      dockerfile: HahnAPI\Dockerfile

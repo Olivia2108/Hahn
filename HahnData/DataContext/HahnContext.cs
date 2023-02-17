@@ -1,25 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlTypes;
-using System.Security.Cryptography.Xml;
+using System.Security.Cryptography.Xml; 
 using HahnData.DataContext.Contracts;
 using HahnData.Dto;
 using HahnData.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.Extensions.Configuration;
 using static HahnData.Middleware.Enums.GeneralEnums;
 
 namespace HahnData.DataContext
 {
     public partial class HahnContext : DbContext, IHahnContext
-	{
-        public HahnContext()
+	{ 
+
+		public HahnContext()
         {
         }
 
         public HahnContext(DbContextOptions<HahnContext> options) : base(options)
         {
-        }
+
+		}
 
         public virtual DbSet<Employee> Employees { get; set; }
         public virtual DbSet<AuditTrail> AuditTrails { get; set; }
@@ -29,6 +32,7 @@ namespace HahnData.DataContext
             if (!optionsBuilder.IsConfigured)
             {
 
+                //optionsBuilder.UseSqlServer(config.GetValue<string>("ConnectionStrings:HahnConn"));
                 optionsBuilder.UseSqlServer("Server=(local); DataBase=Hahn;Integrated Security=true");
             }
         }

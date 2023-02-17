@@ -33,8 +33,4 @@
     <ProjectReference Include="..\HahnAPI\HahnAPI.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="System\Services\" />
-  </ItemGroup>
-
 </Project>
