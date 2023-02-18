@@ -1,6 +1,8 @@
 ﻿using HahnData.DataContext;
 using HahnData.Repositories.Contracts;
+using HahnDomain.Middleware.Exceptions;
 using Microsoft.EntityFrameworkCore;
+using NLog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,16 +25,16 @@ namespace HahnData.Repositories
 		{
 			try
 			{
-
-				//var result = await context.Vehicles.ToListAsync();
+				 
 				var result = await _context.Set<TModel>().ToListAsync();
 				return result;
 			}
 			catch (Exception ex)
 			{
 
-				throw;
+				LoggerMiddleware.LogError(ex.Message);
 			}
+			return new List<TModel>();
 		}
 	}
 }

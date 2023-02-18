@@ -52,7 +52,7 @@
           <!-- Amount Column -->
           <ng-container matColumnDef="Salary">
             <th mat-header-cell *matHeaderCellDef> Salary </th>
-            <td mat-cell *matCellDef="let element">${{element.salary}}</td>
+            <td mat-cell *matCellDef="let element">{{element.salary |currency:'CAD':'symbol-narrow'}}</td>
           </ng-container>
       
           <!-- Email Column -->
@@ -84,7 +84,7 @@
               </button>
             </mat-cell>
           </ng-container>
-  
+   
           <!-- Row shown when there is no matching data. -->
       <tr class="mat-row" *matNoDataRow>
         <td class="mat-cell" colspan="8" style="text-align: center;">No data available</td>
@@ -94,7 +94,7 @@
           <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
         </table>
       
-        <mat-paginator [pageSizeOptions]="[5, 10, 15, 20]"
+        <mat-paginator [pageSizeOptions]="[10, 15, 20, 25, 30]"
                        showFirstLastButtons
                        aria-label="Select page of employees">
         </mat-paginator>

@@ -44,7 +44,7 @@ namespace HahnData.DataContext.Infrastructure
 				context.Employees.AddAsync(employee);
 			}
 			 
-			var ty = context.SaveChangesAsync().GetAwaiter().GetResult();
+			var ty = context.SaveChangesAsync(stub.FirstOrDefault().IpAddress).GetAwaiter().GetResult();
 		}
 
 		public static List<Employee> GenerateData(int count)
@@ -62,7 +62,7 @@ namespace HahnData.DataContext.Infrastructure
 				.RuleFor(c => c.Name, f => f.Person.FullName)
 				.RuleFor(c => c.Email, f => f.Person.Email)
 				.RuleFor(c => c.Phone, f => f.Person.Phone.Substring(0, 11))
-				.RuleFor(c => c.Salary, f => f.Random.Decimal())
+				.RuleFor(c => c.Salary, f => f.Random.Decimal(5000,100000000))
 				.RuleFor(c => c.IsActive, f => true)
 				.RuleFor(c => c.IpAddress, f => f.Internet.IpAddress().ToString())
 				.RuleFor(c => c.DateCreated, f => f.Date.Recent(5))

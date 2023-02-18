@@ -23,7 +23,7 @@ namespace HahnData.Dto
 	{
 		public EmployeeValidator()
 		{
-			int i = 0;
+
 			RuleFor(x => x.Salary).GreaterThan(0).NotNull().WithMessage("Salary must be greater then 0.");
 			RuleFor(x => x.Phone).NotNull().Length(11);
 			RuleFor(x => x.Email).NotEmpty().WithMessage("Email address is required.").EmailAddress().WithMessage("A valid email address is required."); 

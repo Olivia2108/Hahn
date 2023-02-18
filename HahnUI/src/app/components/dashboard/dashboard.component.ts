@@ -67,6 +67,7 @@ export class DashboardComponent implements OnInit {
   ngOnInit(): void {
     this.getAllEmployees();
     this.getIP();
+     
   }
   
   
@@ -104,14 +105,7 @@ export class DashboardComponent implements OnInit {
         console.log(response);
         this.notificationService.error(response.error.message); 
       }
-    });
-  //   .subscribe((data:any) =>{
-  //     this.employee = data.data;
-  //     console.log(this.employee);
-  //     this.dataSource = new MatTableDataSource<Employee>(this.employee)
-  //     this.dataSource.paginator = this.paginator;
-
-  //  })
+    }); 
   }
 
   
@@ -121,7 +115,7 @@ export class DashboardComponent implements OnInit {
       return this.notificationService.error("Kindly fill all fields");
     }
     let model = {
- 
+  
         "id": this.employeeForm.value.id,
         "name": this.employeeForm.value.name,
         "email": this.employeeForm.value.email,
@@ -137,10 +131,11 @@ export class DashboardComponent implements OnInit {
         next: (data: any) => {
           console.log(data);
           this.employeeForm.reset();
-          this.closeModal();
-          window.location.reload();
+          this.closeModal(); 
           this.notificationService.success("Employee created successfuly");
-
+           
+          setTimeout(() => this.ngOnInit());
+           
         }, 
         error : (response) =>{ 
           console.log(response);
@@ -167,11 +162,11 @@ export class DashboardComponent implements OnInit {
       this.apiService.updateEmployee(this.Id, model)
       .subscribe({
         next: (data: any) => {
-          this.closeModal();
-          window.location.reload();
+          this.closeModal(); 
+          setTimeout(() => this.ngOnInit());
+          
           this.notificationService.success("Employee Information updated successfuly");
-
-
+ 
         }, 
         error : (response) =>{ 
           console.log(response);
@@ -189,12 +184,15 @@ export class DashboardComponent implements OnInit {
         next: (data: any) => {
           this.notificationService.success("Employee deleted successfuly");
           this.closeModal();
-          window.location.reload();
+          
+          setTimeout(() => this.ngOnInit());
         }, 
         error : (response) =>{ 
           console.log(response);
           this.notificationService.error(response.error.message);  
-          //window.location.reload();
+          setTimeout(function() {
+            window.location.reload();
+          }, 5000);
         }
       }); 
   }

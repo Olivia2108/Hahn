@@ -67,6 +67,7 @@ namespace HahnDomain.Services
 				};
 
 				var result = await _employeeRepository.AddEmployee(data);
+#pragma warning disable IDE0066
 				switch (result)
 				{
 
@@ -136,6 +137,7 @@ namespace HahnDomain.Services
 			try
 			{
 				var result = await _employeeRepository.GetEmployeeById(employeeId);
+#pragma warning disable IDE0066
 				switch (result)
 				{
 
@@ -201,7 +203,7 @@ namespace HahnDomain.Services
 				};
 
 				var result = await _employeeRepository.UpdateEmployeeInfo(Id, data);
-				switch (result)
+				switch(result)
 				{
 
 					case 0: 
@@ -244,7 +246,7 @@ namespace HahnDomain.Services
 			try
 			{
 				var result = await _employeeRepository.DeleteEmployeeInfo(employeeId, ipAddress);
-				switch (result)
+				switch(result)
 				{
 					case var delete when delete == (int)DbInfo.NoIdFound:
 						return new ApiResponseDto

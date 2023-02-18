@@ -19,18 +19,22 @@ namespace HahnUnitTest.System.Controller.EmployeeAction
 {
 	public class GetAction : DbContextTextBase
 	{
-		private EmployeeRepository _repository;
-		private EmployeeService _employeeService;
+		private readonly EmployeeRepository _repository;
+		private readonly EmployeeService _employeeService;
 
 		public GetAction()
 		{
-			if (_repository == null)
+			switch (_repository)
 			{
-				_repository = new EmployeeRepository(_context);
+				case null:
+					_repository = new EmployeeRepository(_context);
+					break;
 			}
-			if (_employeeService == null)
+			switch (_employeeService)
 			{
-				_employeeService = new EmployeeService(_repository);
+				case null:
+					_employeeService = new EmployeeService(_repository);
+					break;
 			}
 
 		}
@@ -66,10 +70,7 @@ namespace HahnUnitTest.System.Controller.EmployeeAction
 		{
 			//Arrange   
 			var systemUnderTest = new EmployeeController(_employeeService);
-
-			var wrongId = EmployeeFixture.GiveMeANumber(_context.Employees.ToList());
-			var first = _context.Employees.FirstOrDefault();
-
+			 
 			//Act 
 			var result = (OkObjectResult)await systemUnderTest.GetAllEmployee();
 

@@ -31,10 +31,7 @@ namespace HahnData.DataContext
 		{
 			if (!optionsBuilder.IsConfigured)
 			{
-
-				//optionsBuilder.UseSqlServer(config.GetValue<string>("ConnectionStrings:HahnConn"));
-				//optionsBuilder.UseSqlServer("Server=(local); DataBase=Hahn;Integrated Security=true");
-				//optionsBuilder.UseSqlServer("Data Source=hahnDb;  Initial Catalog=Hahn;  Persist Security Info=True;User ID=sa;Password=password@1;");
+				 
 			}
 		}
 
@@ -146,7 +143,7 @@ namespace HahnData.DataContext
 						break;
 
 					case EntityState.Modified:
-						entry.Entity.IsActive = true;
+						//entry.Entity.IsActive = true;
 						break;
 
 					case EntityState.Deleted:

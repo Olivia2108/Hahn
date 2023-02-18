@@ -18,18 +18,22 @@ namespace HahnUnitTest.System.Controller.Employee
 {
 	public class UpdateAction : DbContextTextBase
 	{
-		private EmployeeRepository _repository;
-		private EmployeeService _employeeService;
+		private readonly EmployeeRepository _repository;
+		private readonly EmployeeService _employeeService;
 
 		public UpdateAction()
 		{
-			if (_repository == null)
+			switch (_repository)
 			{
-				_repository = new EmployeeRepository(_context);
+				case null:
+					_repository = new EmployeeRepository(_context);
+					break;
 			}
-			if (_employeeService == null)
+			switch (_employeeService)
 			{
-				_employeeService = new EmployeeService(_repository);
+				case null:
+					_employeeService = new EmployeeService(_repository);
+					break;
 			}
 
 		}

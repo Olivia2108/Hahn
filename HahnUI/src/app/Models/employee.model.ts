@@ -8,18 +8,4 @@ export interface Employee {
     dateCreated: Date, 
     ipAddress: string
   }
-  
-export interface newOrder {
-    shippingAdress: string,
-    orderItemsDtoModel: 
-    [
-      {
-        productName: string,
-        price: {
-          amount: number,
-          unit: number
-          }
-      }
-     
-    ]
-}
+    

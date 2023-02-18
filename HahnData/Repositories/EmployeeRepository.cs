@@ -31,7 +31,7 @@ namespace HahnData.Repositories
 
 		public async Task<long> AddEmployee(Employee data)
 		{
-			var gh = _context.Database.GetDbConnection().ConnectionString;
+			//var gh = _context.Database.GetDbConnection().ConnectionString;
 			try
 			{
 				await _context.Employees.AddAsync(data);
