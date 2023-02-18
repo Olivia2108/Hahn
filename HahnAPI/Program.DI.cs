@@ -24,9 +24,7 @@ namespace HahnAPI
 
 			services
 				.AddMvc(options =>
-				{
-					options.Filters.Add(typeof(CustomExceptionFilterAttribute));
-					//options.UseGeneralRoutePrefix("api/");
+				{ 
 					options.ReturnHttpNotAcceptable = true;
 					options.EnableEndpointRouting = true;
 				})
